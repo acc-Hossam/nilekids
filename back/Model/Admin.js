@@ -1,0 +1,20 @@
+const mongoose = require('mongoose');
+
+const adminSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        unique: true,
+        required: true,
+        trim: true
+    },
+    password: {
+        type: String,
+        required: true
+    }
+}, { timestamps: true });
+adminSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next();
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+});
+module.exports = mongoose.model('Admin', adminSchema);
