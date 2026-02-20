@@ -1,36 +1,29 @@
 const express = require("express");
+const dotenv = require('dotenv');
+const cors = require('cors');
+const router = express.Router();
+const connectDB = require("./db/configconection")
+//import mongoose 
 const app = express();
-const port = 3000;
 //config dotenv
-require("dotenv").config();
+dotenv.config();
+const port = process.env.PORT;
 //import mongoose
-//const mongoose = require("./db/configconection").mongoose;
+const { authMiddleware, authorizeRoles } = require("./Middleware/auth.js");
 
+connectDB()
 app.use(express.json());
 //import routes
-const studentRoutes = require("./Routes/studentRoutes");
-const teacherRoutes = require("./Routes/teacherRoutes");
-const classRoutes = require("./Routes/classRoutes");
-const curriculumRoutes = require("./Routes/curriculumRoutes");
-const courseRoutes = require("./Routes/courseRoutes");
-const lessonRoutes = require("./Routes/lessonRoutes");
-const quizRoutes = require("./Routes/quizRoutes");
-const evaluationRoutes = require("./Routes/evaluationRoutes");
-const paymentRoutes = require("./Routes/paymentRoutes");
-const adminRoutes = require("./Routes/adminRoutes");
+
+app.use("/", (req, res) => {
+    res.send("Hello from homepage ");
+})
+
+
 
 
 //use routes
-app.use("/student", studentRoutes);
-// app.use("/teacher", teacherRoutes);
-// app.use("/class", classRoutes);
-// app.use("/curriculum", curriculumRoutes);
-// app.use("/course", courseRoutes);
-// app.use("/lesson", lessonRoutes);
-// app.use("/quiz", quizRoutes);
-// app.use("/evaluation", evaluationRoutes);
-// app.use("/payment", paymentRoutes);
-// app.use("/admin", adminRoutes);
+
 
 
 app.listen(port, () => {
