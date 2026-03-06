@@ -7,7 +7,7 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "nodemon": "nodemon server.js"
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "argon2": "^0.44.0",

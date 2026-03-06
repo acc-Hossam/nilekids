@@ -1,0 +1,770 @@
+### ============================================================
+### 🔧 Variables - غيّر التوكن بعد اللوجين
+### ============================================================
+
+@baseUrl = http://localhost:2999
+@adminToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OTk5ODE3N2Y3YjAwMWUzZWQyMjNhYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MTcwOTQyNCwiZXhwIjoxNzgwMzQ5NDI0fQ.cxDhOKZY_Tg6qvgFsACJC-sM96xXMCNfJphrCvcfCIA
+@teacherToken = PASTE_TEACHER_TOKEN_HERE
+@studentToken = PASTE_STUDENT_TOKEN_HERE
+@studentId = PASTE_STUDENT_ID_HERE
+@teacherId = PASTE_TEACHER_ID_HERE
+@subjectId = PASTE_SUBJECT_ID_HERE
+
+
+### ============================================================
+### 🔐 AUTH - LOGIN
+### ============================================================
+
+### [1] Login as Admin
+# @name loginAdmin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123",
+  "role": "admin"
+}
+
+### Expected Response ✅
+# {
+#   "token": "eyJhbGciOiJIUzI1...",
+#   "role": "admin",
+#   "userId": "65f1a2b3c4d5e6f7a8b9c0d1"
+# }
+
+###
+
+### [2] Login as Teacher
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "teacher_sarah",
+  "password": "pass123",
+  "role": "teacher"
+}
+
+### Expected Response ✅
+# {
+#   "token": "eyJhbGciOiJIUzI1...",
+#   "role": "teacher",
+#   "userId": "65f1a2b3c4d5e6f7a8b9c0d2"
+# }
+
+###
+
+### [3] Login as Student
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "student_ali",
+  "password": "pass123",
+  "role": "student"
+}
+
+### Expected Response ✅
+# {
+#   "token": "eyJhbGciOiJIUzI1...",
+#   "role": "student",
+#   "userId": "65f1a2b3c4d5e6f7a8b9c0d3"
+# }
+
+###
+
+### [4] Login - Wrong Password ❌
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "wrongpassword",
+  "role": "admin"
+}
+
+### Expected Response ❌
+# Status: 401
+# { "message": "Invalid credentials" }
+
+
+### ============================================================
+### 👩‍🏫 ADMIN - TEACHERS
+### ============================================================
+
+### [5] Add New Teacher ➕
+POST {{baseUrl}}/admin/teachers
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "name": "Sarah Ahmed",
+  "username": "teacher_sarah",
+  "specialty": "Arabic Language",
+  "contact": {
+    "phone": "01012345678",
+    "email": "sarah@nilekids.com"
+  },
+  "password": "pass123"
+}
+
+### Expected Response ✅
+# Status: 201
+# {
+#   "message": "Teacher added successfully",
+#   "teacher": {
+#     "_id": "65f1a2...",
+#     "name": "Sarah Ahmed",
+#     "specialty": "Arabic Language",
+#     "contact": { "phone": "01012345678", "email": "sarah@nilekids.com" },
+#     "classIds": [],
+#     "subjectIds": [],
+#     "createdAt": "2025-01-01T00:00:00.000Z"
+#   }
+# }
+
+###
+
+### [6] Get All Teachers 📋
+GET {{baseUrl}}/admin/teachers
+Authorization: Bearer {{adminToken}}
+
+### Expected Response ✅
+# [
+#   {
+#     "_id": "65f1a2...",
+#     "name": "Sarah Ahmed",
+#     "specialty": "Arabic Language",
+#     ...
+#   }
+# ]
+
+###
+
+### [7] Get Teacher by ID 🔍
+GET {{baseUrl}}/admin/teachers/{{teacherId}}
+Authorization: Bearer {{adminToken}}
+
+### Expected Response ✅
+# {
+#   "_id": "65f1a2...",
+#   "name": "Sarah Ahmed",
+#   ...
+# }
+
+### Expected if not found ❌
+# Status: 404
+# { "message": "Teacher not found" }
+
+###
+
+### [8] Update Teacher ✏️
+PUT {{baseUrl}}/admin/teachers/{{teacherId}}
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "specialty": "Mathematics",
+  "contact": {
+    "phone": "01098765432",
+    "email": "sarah.new@nilekids.com"
+  }
+}
+
+### Expected Response ✅
+# {
+#   "message": "Teacher updated successfully",
+#   "teacher": { "_id": "65f1a2...", "specialty": "Mathematics", ... }
+# }
+
+###
+
+### [9] Delete Teacher 🗑️
+DELETE {{baseUrl}}/admin/teachers/{{teacherId}}
+Authorization: Bearer {{adminToken}}
+
+### Expected Response ✅
+# { "message": "Teacher deleted successfully" }
+
+
+### ============================================================
+### 🎓 ADMIN - STUDENTS
+### ============================================================
+
+### [10] Add New Student ➕
+POST {{baseUrl}}/admin/students
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "name": "Ali Mohamed",
+  "grade": "KG1",
+  "studentId": "STU001",
+  "birthDay": "2019-05-15",
+  "userName": "student_ali",
+  "password": "pass123",
+  "phoneNumber": "01112233445",
+  "whatsApp": "01112233445",
+  "dressCode": "Blue uniform"
+}
+
+### Expected Response ✅
+# Status: 201
+# {
+#   "message": "Student added successfully",
+#   "student": {
+#     "_id": "65f1b3...",
+#     "name": "Ali Mohamed",
+#     "grade": "KG1",
+#     "studentId": "STU001",
+#     "birthDay": "2019-05-15T00:00:00.000Z",
+#     "isDeleted": false,
+#     "evaluations": [],
+#     "payments": [],
+#     "createdAt": "..."
+#   }
+# }
+
+###
+
+### [11] Get All Students 📋
+GET {{baseUrl}}/admin/students
+Authorization: Bearer {{adminToken}}
+
+### Expected Response ✅
+# — يرجع فقط الطلاب اللي isDeleted: false
+# [
+#   {
+#     "_id": "65f1b3...",
+#     "name": "Ali Mohamed",
+#     "missId": { "name": "Sarah Ahmed", "specialty": "Arabic Language" },
+#     ...
+#   }
+# ]
+
+###
+
+### [12] Get Student by ID 🔍
+GET {{baseUrl}}/admin/students/{{studentId}}
+Authorization: Bearer {{adminToken}}
+
+### Expected Response ✅
+# { "_id": "...", "name": "Ali Mohamed", "grade": "KG1", ... }
+
+###
+
+### [13] Update Student ✏️
+PUT {{baseUrl}}/admin/students/{{studentId}}
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "grade": "KG2",
+  "dressCode": "Red uniform"
+}
+
+### Expected Response ✅
+# {
+#   "message": "Student updated successfully",
+#   "student": { "_id": "...", "grade": "KG2", ... }
+# }
+
+###
+
+### [14] Delete Student (Soft Delete) 🗑️
+DELETE {{baseUrl}}/admin/students/{{studentId}}
+Authorization: Bearer {{adminToken}}
+
+### Expected Response ✅
+# { "message": "Student deleted successfully" }
+# ملاحظة: الطالب مش بيتحذف فعلياً — بس isDeleted بتبقى true
+
+
+### ============================================================
+### 📚 ADMIN - SUBJECTS
+### ============================================================
+
+### [15] Add New Subject ➕
+POST {{baseUrl}}/admin/subjects
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "name": "Arabic Language",
+  "lessons": [
+    {
+      "title": "Letters - الحروف",
+      "description": "تعليم الحروف الهجائية",
+      "date": "2025-02-01"
+    }
+  ],
+  "books": [
+    {
+      "title": "My Arabic Book 1",
+      "author": "Ministry of Education"
+    }
+  ]
+}
+
+### Expected Response ✅
+# Status: 201
+# {
+#   "message": "Subject added successfully",
+#   "subject": {
+#     "_id": "65f2c4...",
+#     "name": "Arabic Language",
+#     "lessons": [...],
+#     "books": [...],
+#     "createdAt": "..."
+#   }
+# }
+
+###
+
+### [16] Get All Subjects 📋
+GET {{baseUrl}}/admin/subjects
+Authorization: Bearer {{adminToken}}
+
+###
+
+### [17] Get Subject by ID 🔍
+GET {{baseUrl}}/admin/subjects/{{subjectId}}
+Authorization: Bearer {{adminToken}}
+
+###
+
+### [18] Update Subject ✏️
+PUT {{baseUrl}}/admin/subjects/{{subjectId}}
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "name": "Arabic (Updated)"
+}
+
+###
+
+### [19] Delete Subject 🗑️
+DELETE {{baseUrl}}/admin/subjects/{{subjectId}}
+Authorization: Bearer {{adminToken}}
+
+### Expected Response ✅
+# { "message": "Subject deleted successfully" }
+
+
+### ============================================================
+### 👩‍🏫 TEACHER - Evaluations & Payments
+### ============================================================
+
+### [20] Add Evaluation for Student ➕
+POST {{baseUrl}}/teacher/students/{{studentId}}/evaluations
+Content-Type: application/json
+Authorization: Bearer {{teacherToken}}
+
+{
+  "grade": 95,
+  "notes": "Excellent performance in reading"
+}
+
+### Expected Response ✅
+# Status: 201
+# {
+#   "message": "Evaluation added successfully",
+#   "evaluations": [
+#     {
+#       "_id": "...",
+#       "grade": 95,
+#       "notes": "Excellent performance in reading"
+#     }
+#   ]
+# }
+
+###
+
+### [21] Get Student Evaluations 📋
+GET {{baseUrl}}/teacher/students/{{studentId}}/evaluations
+Authorization: Bearer {{teacherToken}}
+
+### Expected Response ✅
+# {
+#   "studentName": "Ali Mohamed",
+#   "evaluations": [
+#     { "grade": 95, "notes": "Excellent performance in reading" }
+#   ]
+# }
+
+###
+
+### [22] Add Payment for Student 💰
+POST {{baseUrl}}/teacher/students/{{studentId}}/payments
+Content-Type: application/json
+Authorization: Bearer {{teacherToken}}
+
+{
+  "amount": 500,
+  "date": "2025-02-01",
+  "type": "Monthly Fees"
+}
+
+### Expected Response ✅
+# Status: 201
+# {
+#   "message": "Payment added successfully",
+#   "payments": [
+#     {
+#       "_id": "...",
+#       "amount": 500,
+#       "type": "Monthly Fees",
+#       "date": "2025-02-01T00:00:00.000Z"
+#     }
+#   ]
+# }
+
+###
+
+### [23] Get Student Payments 📋
+GET {{baseUrl}}/teacher/students/{{studentId}}/payments
+Authorization: Bearer {{teacherToken}}
+
+### Expected Response ✅
+# {
+#   "studentName": "Ali Mohamed",
+#   "payments": [
+#     { "amount": 500, "type": "Monthly Fees", "date": "..." }
+#   ]
+# }
+
+###
+
+### [24] View Student Profile 👁️
+GET {{baseUrl}}/teacher/students/{{studentId}}
+Authorization: Bearer {{teacherToken}}
+
+### Expected Response ✅
+# {
+#   "_id": "...",
+#   "name": "Ali Mohamed",
+#   "grade": "KG1",
+#   "classId": { ... },
+#   "curriculumId": { ... },
+#   ...
+# }
+
+
+### ============================================================
+### 🎓 STUDENT - Self Profile
+### ============================================================
+
+### [25] Get My Profile 👤
+GET {{baseUrl}}/student/me
+Authorization: Bearer {{studentToken}}
+
+### Expected Response ✅
+# {
+#   "_id": "...",
+#   "name": "Ali Mohamed",
+#   "grade": "KG1",
+#   "studentId": "STU001",
+#   "missId": { "name": "Sarah Ahmed", "specialty": "Arabic Language" },
+#   "classId": { ... },
+#   "curriculumId": { ... },
+#   "phoneNumber": "01112233445",
+#   "dressCode": "Blue uniform"
+# }
+
+###
+
+### [26] Get My Evaluations 📝
+GET {{baseUrl}}/student/me/evaluations
+Authorization: Bearer {{studentToken}}
+
+### Expected Response ✅
+# {
+#   "evaluations": [
+#     { "grade": 95, "notes": "Excellent performance in reading" }
+#   ]
+# }
+
+###
+
+### [27] Get My Payments 💰
+GET {{baseUrl}}/student/me/payments
+Authorization: Bearer {{studentToken}}
+
+### Expected Response ✅
+# {
+#   "payments": [
+#     { "amount": 500, "type": "Monthly Fees", "date": "..." }
+#   ]
+# }
+
+
+### ============================================================
+### 🚫 ERROR CASES - Unauthorized Access
+### ============================================================
+
+### [28] Student tries to access Admin route ❌
+GET {{baseUrl}}/admin/students
+Authorization: Bearer {{studentToken}}
+
+### Expected Response ❌
+# Status: 403
+# { "message": "Access denied" }
+
+###
+
+### [29] No Token sent ❌
+GET {{baseUrl}}/admin/students
+
+### Expected Response ❌
+# Status: 401
+# { "message": "No token provided" }
+
+
+### ============================================================
+### ❓ QUESTIONS API
+### ============================================================
+
+@questionId = PASTE_QUESTION_ID_HERE
+
+### [30] Add Question (Admin only) ➕
+POST {{baseUrl}}/questions
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "type": "mcq",
+  "text": "ما هو عدد حروف اللغة العربية؟",
+  "options": [
+    { "label": "٢٦", "isCorrect": false },
+    { "label": "٢٨", "isCorrect": true },
+    { "label": "٣٠", "isCorrect": false },
+    { "label": "٢٤", "isCorrect": false }
+  ],
+  "difficulty": "easy"
+}
+
+### Expected Response ✅
+# Status: 201
+# {
+#   "message": "Question added successfully",
+#   "question": {
+#     "_id": "...",
+#     "type": "mcq",
+#     "text": "ما هو عدد حروف اللغة العربية؟",
+#     "options": [...],
+#     "difficulty": "easy",
+#     "createdAt": "..."
+#   }
+# }
+
+###
+
+### [31] Add Question - math type ➕
+POST {{baseUrl}}/questions
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "type": "math",
+  "text": "كم يساوي 3 + 5 ؟",
+  "answer": "8",
+  "difficulty": "easy"
+}
+
+### Expected Response ✅
+# Status: 201
+# { "message": "Question added successfully", "question": { ... } }
+
+###
+
+### [32] Add Question - missing required field ❌
+POST {{baseUrl}}/questions
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "text": "سؤال بدون type"
+}
+
+### Expected Response ❌
+# Status: 400
+# { "message": "Error adding question", "error": "..." }
+
+###
+
+### [33] Add Question - Teacher tries to add ❌
+POST {{baseUrl}}/questions
+Content-Type: application/json
+Authorization: Bearer {{teacherToken}}
+
+{
+  "type": "mcq",
+  "text": "سؤال من المعلم",
+  "difficulty": "easy"
+}
+
+### Expected Response ❌
+# Status: 403
+# { "message": "Access denied" }
+
+###
+
+### [34] Get All Questions (Admin & Teacher) 📋
+GET {{baseUrl}}/questions
+Authorization: Bearer {{adminToken}}
+
+### Expected Response ✅
+# [
+#   {
+#     "_id": "...",
+#     "type": "mcq",
+#     "text": "ما هو عدد حروف اللغة العربية؟",
+#     "difficulty": "easy",
+#     ...
+#   }
+# ]
+
+###
+
+### [35] Get All Questions as Teacher 📋
+GET {{baseUrl}}/questions
+Authorization: Bearer {{teacherToken}}
+
+### Expected Response ✅
+# Status: 200  — same list as admin
+
+###
+
+### [36] Get All Questions as Student ❌
+GET {{baseUrl}}/questions
+Authorization: Bearer {{studentToken}}
+
+### Expected Response ❌
+# Status: 403
+# { "message": "Access denied" }
+
+###
+
+### [37] Get Question by ID 🔍
+GET {{baseUrl}}/questions/{{questionId}}
+Authorization: Bearer {{adminToken}}
+
+### Expected Response ✅
+# {
+#   "_id": "...",
+#   "type": "mcq",
+#   "text": "ما هو عدد حروف اللغة العربية؟",
+#   "options": [...],
+#   "difficulty": "easy"
+# }
+
+###
+
+### [38] Get Question by ID as Student 🔍
+GET {{baseUrl}}/questions/{{questionId}}
+Authorization: Bearer {{studentToken}}
+
+### Expected Response ✅
+# Status: 200 — الstudent يقدر يشوف سؤال واحد بس
+
+###
+
+### [39] Get Question by ID - Not Found ❌
+GET {{baseUrl}}/questions/000000000000000000000000
+Authorization: Bearer {{adminToken}}
+
+### Expected Response ❌
+# Status: 404
+# { "message": "Question not found" }
+
+###
+
+### [40] Update Question (Admin only) ✏️
+PUT {{baseUrl}}/questions/{{questionId}}
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "difficulty": "medium",
+  "text": "ما هو عدد حروف اللغة العربية؟ (محدّث)"
+}
+
+### Expected Response ✅
+# {
+#   "message": "Question updated successfully",
+#   "question": {
+#     "_id": "...",
+#     "difficulty": "medium",
+#     "text": "ما هو عدد حروف اللغة العربية؟ (محدّث)",
+#     ...
+#   }
+# }
+
+###
+
+### [41] Update Question - Teacher tries ❌
+PUT {{baseUrl}}/questions/{{questionId}}
+Content-Type: application/json
+Authorization: Bearer {{teacherToken}}
+
+{
+  "difficulty": "hard"
+}
+
+### Expected Response ❌
+# Status: 403
+# { "message": "Access denied" }
+
+###
+
+### [42] Update Question - Not Found ❌
+PUT {{baseUrl}}/questions/000000000000000000000000
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "difficulty": "hard"
+}
+
+### Expected Response ❌
+# Status: 404
+# { "message": "Question not found" }
+
+###
+
+### [43] Delete Question (Admin only) 🗑️
+DELETE {{baseUrl}}/questions/{{questionId}}
+Authorization: Bearer {{adminToken}}
+
+### Expected Response ✅
+# { "message": "Question deleted successfully" }
+
+###
+
+### [44] Delete Question - Teacher tries ❌
+DELETE {{baseUrl}}/questions/{{questionId}}
+Authorization: Bearer {{teacherToken}}
+
+### Expected Response ❌
+# Status: 403
+# { "message": "Access denied" }
+
+###
+
+### [45] Delete Question - Not Found ❌
+DELETE {{baseUrl}}/questions/000000000000000000000000
+Authorization: Bearer {{adminToken}}
+
+### Expected Response ❌
+# Status: 404
+# { "message": "Question not found" }
+
+###
+
+### [46] Access Questions - No Token ❌
+GET {{baseUrl}}/questions
+
+### Expected Response ❌
+# Status: 401
+# { "message": "No token provided" }

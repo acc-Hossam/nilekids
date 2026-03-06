@@ -6,8 +6,17 @@ const teacherSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
   specialty: {
-    type: String, // مادة أساسية زي لغة عربية أو رياضيات
+    type: String,
   },
   contact: {
     phone: String,
@@ -20,21 +29,19 @@ const teacherSchema = new mongoose.Schema({
     }
   ],
   evaluations: [
-  {
-    examId: { type: mongoose.Schema.Types.ObjectId, ref: "Exam" },
-    grade: Number,
-    notes: String,
-    teacherId: { type: mongoose.Schema.Types.ObjectId, ref: "Teacher" }
-  }
-],
-payments: [
-  {
-    amount: Number,
-    date: Date,
-    type: String,
-    teacherId: { type: mongoose.Schema.Types.ObjectId, ref: "Teacher" }
-  }
-],
+    {
+      examId: { type: mongoose.Schema.Types.ObjectId, ref: "Exam" },
+      grade: Number,
+      notes: String,
+    }
+  ],
+  payments: [
+    {
+      amount: Number,
+      date: Date,
+      type: String,
+    }
+  ],
   subjectIds: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -43,16 +50,6 @@ payments: [
   ]
 }, { timestamps: true });
 
-// تشفير الباسورد قبل الحفظ
-studentSchema.pre('save', function (next) {
-  if (!this.isModified('password')) return next();
-
-  bcrypt.hash(this.password, 10)
-    .then(hash => {
-      this.password = hash;
-      next();
-    })
-    .catch(err => next(err));
-});
+// الـ hashing بيتعمل في الـ controller مباشرة
 
 module.exports = mongoose.model('Teacher', teacherSchema);

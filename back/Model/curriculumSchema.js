@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const curriculumSchema = new mongoose.Schema({
   name: {
     type: String,

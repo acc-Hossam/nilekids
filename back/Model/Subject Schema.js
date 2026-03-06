@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const subjectSchema = new mongoose.Schema({
   name: {
@@ -8,6 +9,10 @@ const subjectSchema = new mongoose.Schema({
   curriculumId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Curriculum",
+  },
+  grade: {
+    type: String, // KG1, KG2, الاول الابتدائي, الخ
+    required: true
   },
   teacherId: {
     type: mongoose.Schema.Types.ObjectId,

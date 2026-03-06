@@ -1,0 +1,1 @@
+tsconfig.json(11,3): error TS6258: 'paths' should be set inside the 'compilerOptions' object of the config json file

@@ -1,23 +1,29 @@
 const mongoose = require("mongoose");
 
-const adminSchema = new mongoose.Schema({
+const classSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  userName: {
-    type: String,
-    unique: true,
-    required: true,
+  grade: {
+    type: String, // KG1, KG2, Grade1 ...
   },
-  password: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    default: "admin" // ممكن نستخدمه للـ RBAC (Role Based Access Control)
+  teacherIds: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Teacher",
+    }
+  ],
+  studentIds: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Student",
+    }
+  ],
+  curriculumId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Curriculum",
   }
 }, { timestamps: true });
 
-module.exports = mongoose.model("Admin", adminSchema);
+module.exports = mongoose.model("Class", classSchema);

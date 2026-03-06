@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const studentSchema = new mongoose.Schema({
     name: {
@@ -70,15 +71,12 @@ const studentSchema = new mongoose.Schema({
     ],
     payments: [
         {
-            amount: Number,
-            date: Date,
-            type: String, // رسوم شهرية، كتب، أنشطة
+            amount: { type: Number },
+            date: { type: Date, default: Date.now },
+            month: { type: String },
+            paymentType: { type: String, default: 'رسوم شهرية' },
         }
     ]
 }, { timestamps: true });
-studentSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 10);
-    next();
-});
+// الـ hashing بيتعمل في الـ controller مباشرة
 module.exports = mongoose.model("Student", studentSchema);
