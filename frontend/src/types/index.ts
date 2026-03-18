@@ -16,6 +16,7 @@ export interface LoginResponse {
     token: string;
     role: 'admin' | 'teacher' | 'student';
     userId: string;
+    name?: string;
 }
 
 // ========== TEACHER ==========

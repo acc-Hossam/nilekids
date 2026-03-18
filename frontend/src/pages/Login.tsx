@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Paper, TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem, Alert } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
@@ -15,6 +15,10 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    localStorage.setItem('loginPage', '/login');
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -22,7 +26,7 @@ export default function Login() {
     
     try {
       const response = await authApi.login(credentials);
-      const user = { id: response.userId, role: response.role };
+      const user = { id: response.userId, role: response.role, name: response.name };
       login(user, response.token);
       navigate('/');
     } catch (err: any) {
