@@ -44,6 +44,9 @@ exports.getTeacherById = async (req, res) => {
 // ✏️ Update Teacher
 exports.updateTeacher = async (req, res) => {
     try {
+        if (req.body.password) {
+            req.body.password = await bcrypt.hash(req.body.password, 10);
+        }
         const teacher = await Teacher.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!teacher) return res.status(404).json({ message: "Teacher not found" });
         res.json({ message: "Teacher updated successfully", teacher });
@@ -124,6 +127,9 @@ exports.getStudentById = async (req, res) => {
 // ✏️ Update Student
 exports.updateStudent = async (req, res) => {
     try {
+        if (req.body.password) {
+            req.body.password = await bcrypt.hash(req.body.password, 10);
+        }
         const student = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!student) return res.status(404).json({ message: "Student not found" });
         res.json({ message: "Student updated successfully", student });

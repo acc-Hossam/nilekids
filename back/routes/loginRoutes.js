@@ -18,7 +18,7 @@ router.post("/login", async (req, res) => {
         } else if (role === "teacher") {
             user = await Teacher.findOne({ username });
         } else if (role === "student") {
-            user = await Student.findOne({ username });
+            user = await Student.findOne({ userName: username });
         }
 
         if (!user) return res.status(404).json({ message: "User not found" });
@@ -27,12 +27,12 @@ router.post("/login", async (req, res) => {
         if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
 
         const token = jwt.sign(
-            { id: user._id, role: user.role },
+            { id: user._id, role: role },
             process.env.JWT_SECRET,
             { expiresIn: "100d" }
         );
         console.log(token);
-        res.json({ token, role: user.role, userId: user._id });
+        res.json({ token, role: role, userId: user._id, name: user.name });
     } catch (err) {
         res.status(500).json({ message: "Server error", error: err.message });
     }

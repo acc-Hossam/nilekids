@@ -20,7 +20,7 @@ exports.getMyProfile = async (req, res) => {
 // 📝 Get My Evaluations
 exports.getMyEvaluations = async (req, res) => {
     try {
-        const student = await Student.findById(req.user.id).populate("evaluations.examId");
+        const student = await Student.findById(req.user.id);
         if (!student || student.isDeleted) return res.status(404).json({ message: "Student not found" });
         res.json({ evaluations: student.evaluations });
     } catch (err) {
