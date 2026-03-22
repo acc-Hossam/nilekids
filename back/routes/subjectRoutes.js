@@ -10,7 +10,7 @@ const {
     updateLesson,
     deleteLesson
 } = require("../controllers/subjectController");
-const { authMiddleware, authorizeRoles } = require("../Middleware/auth");
+const { authMiddleware, authorizeRoles } = require("../middleware/auth");
 
 // Protect all routes
 router.use(authMiddleware);

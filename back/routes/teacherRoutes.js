@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { authMiddleware, authorizeRoles } = require("../Middleware/auth");
+const { authMiddleware, authorizeRoles } = require("../middleware/auth");
 const teacherController = require("../controllers/teacherController");
 
 // 🏠 Get Teacher's Dashboard Data (Classes and Students)

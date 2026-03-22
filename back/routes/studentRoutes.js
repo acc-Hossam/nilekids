@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { authMiddleware, authorizeRoles } = require("../Middleware/auth");
+const { authMiddleware, authorizeRoles } = require("../middleware/auth");
 const studentController = require("../controllers/studentController");
 
 // 👁️ Student يشوف بياناته
