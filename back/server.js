@@ -9,7 +9,7 @@ const app = express();
 dotenv.config();
 const port = process.env.PORT;
 //import mongoose
-const { authMiddleware, authorizeRoles } = require("./Middleware/auth.js");
+const { authMiddleware, authorizeRoles } = require("./middleware/auth.js");
 //init default admin
 const createDefaultAdmin = require("./initAdmin");
 // بعد الاتصال بقاعدة البيانات
