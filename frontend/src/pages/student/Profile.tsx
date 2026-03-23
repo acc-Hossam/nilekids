@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { 
-  Box, Typography, Card, CardContent, CircularProgress, Alert, Avatar, 
-  Chip, Dialog, DialogTitle, DialogContent, IconButton, Paper, Button,
-  Grid, Divider, LinearProgress, useTheme, alpha
+import {
+  Box, Typography, Card, CardContent, CircularProgress, Alert, Avatar,
+  Chip, Dialog, DialogTitle, DialogContent, IconButton, Button,
+  Grid, Divider, useTheme, alpha
 } from '@mui/material';
-import { 
-  MenuBook as BookIcon, School as SchoolIcon, Close as CloseIcon, 
-  LibraryBooks as LessonIcon, PlayCircleOutline as VideoIcon, 
-  StarRate as StarIcon, Person as PersonIcon, TrendingUp as TrendingIcon,
-  EmojiEvents as TrophyIcon, 
+import {
+  MenuBook as BookIcon, School as SchoolIcon, Close as CloseIcon,
+  LibraryBooks as LessonIcon, PlayCircleOutline as VideoIcon,
+  StarRate as StarIcon, Person as PersonIcon,
+  EmojiEvents as TrophyIcon,
   Logout as LogoutIcon
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -18,17 +18,17 @@ import { useAuth } from '../../contexts/AuthContext';
 import type { Subject, Lesson } from '../../api/subject';
 
 // ─── Grade colour helper ──────────────────────────────────────
-function gradeColor(grade: number, theme: ReturnType<typeof useTheme>) {
-    if (grade >= 85) return theme.palette.success.main;
-    if (grade >= 65) return theme.palette.warning.main;
-    return theme.palette.error.main;
+function gradeColor(grade: number, theme: any) {
+  if (grade >= 85) return theme.palette.success.main;
+  if (grade >= 65) return theme.palette.warning.main;
+  return theme.palette.error.main;
 }
 
 export default function StudentProfile() {
   const theme = useTheme();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  
+
   const { data: profile, isLoading: profileLoading } = useMyProfile();
   const { data: subjectsData, isLoading: subjectsLoading } = useMySubjects();
   const { data: evalsData, isLoading: evalsLoading } = useMyEvaluations();
@@ -48,7 +48,7 @@ export default function StudentProfile() {
 
   const subjects = subjectsData?.subjects || [];
   const evaluations = evalsData?.evaluations || [];
-  
+
   const handleLogout = () => {
     logout();
     navigate('/student-login');
@@ -56,13 +56,13 @@ export default function StudentProfile() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 4 }, minHeight: '100vh', background: 'linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)', direction: 'rtl' }}>
-      
+
       {/* ── HEADER ── */}
-      <Card 
-        elevation={0} 
-        sx={{ 
-          mb: 4, 
-          borderRadius: 4, 
+      <Card
+        elevation={0}
+        sx={{
+          mb: 4,
+          borderRadius: 4,
           overflow: 'hidden',
           background: 'linear-gradient(135deg, #6C9BCF 0%, #A18CD1 100%)',
           color: 'white',
@@ -71,7 +71,7 @@ export default function StudentProfile() {
       >
         <CardContent sx={{ p: { xs: 3, md: 5 }, position: 'relative' }}>
           {/* Logout Button */}
-          <IconButton 
+          <IconButton
             onClick={handleLogout}
             sx={{ position: 'absolute', top: 16, left: 16, color: 'white', bgcolor: 'rgba(255,255,255,0.2)', '&:hover': { bgcolor: 'rgba(255,255,255,0.3)' } }}
           >
@@ -80,16 +80,16 @@ export default function StudentProfile() {
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, flexWrap: 'wrap' }}>
             <Box sx={{ position: 'relative' }}>
-              <Avatar 
-                src={profile?.img} 
-                sx={{ 
-                  width: 100, 
-                  height: 100, 
-                  bgcolor: 'white', 
-                  color: 'primary.main',
-                  border: '4px solid rgba(255,255,255,0.8)',
-                  boxShadow: '0 8px 24px rgba(0,0,0,0.1)'
-                }}
+              <Avatar
+              // src={profile?.img} 
+              // sx={{ 
+              //   width: 100, 
+              //   height: 100, 
+              //   bgcolor: 'white', 
+              //   color: 'primary.main',
+              //   border: '4px solid rgba(255,255,255,0.8)',
+              //   boxShadow: '0 8px 24px rgba(0,0,0,0.1)'
+              // }}
               >
                 <SchoolIcon sx={{ fontSize: 50 }} />
               </Avatar>
@@ -97,7 +97,7 @@ export default function StudentProfile() {
                 <TrophyIcon sx={{ color: '#D97706', fontSize: 28 }} />
               </Box>
             </Box>
-            
+
             <Box sx={{ flexGrow: 1 }}>
               <Typography variant="h3" fontWeight="900" sx={{ mb: 1, textShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
                 مرحباً يا بطل، {profile?.name || user?.name}! 🌟
@@ -112,10 +112,10 @@ export default function StudentProfile() {
       </Card>
 
       <Grid container spacing={4}>
-        
+
         {/* ── LEFT COLUMN: EVALUATIONS & TEACHER ── */}
-        <Grid item xs={12} md={4}>
-          
+        <Grid size={{ xs: 12, md: 8 }}>
+
           {/* TEACHER INFO */}
           <Card elevation={0} sx={{ borderRadius: 4, mb: 4, border: '1px solid', borderColor: 'divider', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
             <Box sx={{ p: 2.5, borderBottom: '1px solid', borderColor: 'divider', bgcolor: alpha(theme.palette.secondary.main, 0.1), display: 'flex', alignItems: 'center', gap: 1.5 }}>
@@ -161,7 +161,7 @@ export default function StudentProfile() {
                       <Box key={i} sx={{ p: 3, borderBottom: '1px solid', borderColor: 'divider', '&:last-child': { borderBottom: 0 }, '&:hover': { bgcolor: alpha(c, 0.04) }, transition: '0.2s' }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                            <Box sx={{ 
+                            <Box sx={{
                               width: 48, height: 48, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
                               bgcolor: alpha(c, 0.15), color: c, fontWeight: '900', fontSize: '1.2rem', boxShadow: `0 4px 10px ${alpha(c, 0.2)}`
                             }}>
@@ -191,8 +191,8 @@ export default function StudentProfile() {
         </Grid>
 
         {/* ── RIGHT COLUMN: SUBJECTS & LESSONS ── */}
-        <Grid item xs={12} md={8}>
-          
+        <Grid size={{ xs: 12, md: 8 }}>
+
           <Typography variant="h5" fontWeight="bold" sx={{ mb: 3, display: 'flex', alignItems: 'center', gap: 1.5, color: 'text.primary' }}>
             <BookIcon sx={{ color: 'primary.main', fontSize: 32 }} />
             موادي الدراسية ({subjects.length})
@@ -205,22 +205,22 @@ export default function StudentProfile() {
           ) : (
             <Grid container spacing={3}>
               {subjects.map((subject) => (
-                <Grid item xs={12} sm={6} key={subject._id}>
+                <Grid size={{ xs: 12, sm: 6 }} key={subject._id}>
                   <Card
                     elevation={0}
-                    sx={{ 
-                      height: '100%', 
+                    sx={{
+                      height: '100%',
                       borderRadius: 4,
                       border: '1px solid',
                       borderColor: 'divider',
                       boxShadow: '0 4px 15px rgba(0,0,0,0.04)',
-                      cursor: 'pointer', 
+                      cursor: 'pointer',
                       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      '&:hover': { 
+                      '&:hover': {
                         transform: 'translateY(-6px)',
                         boxShadow: '0 12px 28px rgba(108, 155, 207, 0.2)',
                         borderColor: 'primary.light'
-                      } 
+                      }
                     }}
                     onClick={() => setSelectedSubject(subject)}
                   >
@@ -230,10 +230,10 @@ export default function StudentProfile() {
                         <Typography variant="h5" fontWeight="900" color="text.primary">
                           {subject.name}
                         </Typography>
-                        <Chip 
-                          icon={<LessonIcon sx={{ fontSize: '1rem !important' }}/>} 
-                          label={`${subject.lessons?.length || 0} درس`} 
-                          sx={{ bgcolor: alpha(theme.palette.primary.main, 0.1), color: 'primary.main', fontWeight: 'bold' }} 
+                        <Chip
+                          icon={<LessonIcon sx={{ fontSize: '1rem !important' }} />}
+                          label={`${subject.lessons?.length || 0} درس`}
+                          sx={{ bgcolor: alpha(theme.palette.primary.main, 0.1), color: 'primary.main', fontWeight: 'bold' }}
                         />
                       </Box>
 
@@ -258,19 +258,19 @@ export default function StudentProfile() {
       </Grid>
 
       {/* ── LESSONS DIALOG ── */}
-      <Dialog 
-        open={Boolean(selectedSubject)} 
-        onClose={() => setSelectedSubject(null)} 
-        maxWidth="md" 
+      <Dialog
+        open={Boolean(selectedSubject)}
+        onClose={() => setSelectedSubject(null)}
+        maxWidth="md"
         fullWidth
         PaperProps={{ sx: { borderRadius: 4, overflow: 'hidden' } }}
         TransitionProps={{ timeout: 400 }}
       >
-        <DialogTitle sx={{ 
-          background: 'linear-gradient(135deg, #6C9BCF 0%, #A18CD1 100%)', 
+        <DialogTitle sx={{
+          background: 'linear-gradient(135deg, #6C9BCF 0%, #A18CD1 100%)',
           color: 'white',
           p: 3,
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center' 
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center'
         }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Box sx={{ bgcolor: 'rgba(255,255,255,0.2)', p: 1, borderRadius: 2 }}>
@@ -326,8 +326,8 @@ export default function StudentProfile() {
                               href={content.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              sx={{ 
-                                borderRadius: 3, 
+                              sx={{
+                                borderRadius: 3,
                                 px: 3,
                                 boxShadow: content.type !== 'PDF' ? '0 4px 10px rgba(108, 155, 207, 0.3)' : 'none'
                               }}

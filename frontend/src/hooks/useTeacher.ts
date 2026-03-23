@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { teacherApi, type TeacherDashboardData } from '../api/teacher';
-import type { Student, Evaluation, Payment } from '../types';
+import type { Student } from '../types';
 
 // ============================================================
 // 🏠 DASHBOARD DATA (Classes & Direct Students)
