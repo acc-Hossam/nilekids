@@ -46,7 +46,7 @@ import {
 import type { Student, Class } from '../../types';
 
 // ─── Grade colour helper ──────────────────────────────────────
-function gradeColor(grade: number, theme: ReturnType<typeof useTheme>) {
+function gradeColor(grade: number, theme: any) {
     if (grade >= 85) return theme.palette.success.main;
     if (grade >= 65) return theme.palette.warning.main;
     return theme.palette.error.main;
@@ -487,7 +487,7 @@ export default function TeacherDashboard() {
 
             {/* ── Stat Cards ── */}
             <Grid container spacing={2.5} sx={{ mb: 4 }}>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                     <StatCard
                         title="إجمالي الطلاب"
                         value={allStudents.length}
@@ -496,7 +496,7 @@ export default function TeacherDashboard() {
                         subtitle="طالب تحت إشرافك"
                     />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                     <StatCard
                         title="الفصول الدراسية"
                         value={data?.classes?.length ?? 0}
@@ -505,7 +505,7 @@ export default function TeacherDashboard() {
                         subtitle="فصل مسند إليك"
                     />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                     <StatCard
                         title="إجمالي التقييمات"
                         value={totalEvals}
@@ -532,15 +532,15 @@ export default function TeacherDashboard() {
             ) : (
                 <Grid container spacing={3}>
                     {/* Classes */}
-                    {hasClasses && data.classes.map((cls: Class) => (
-                        <Grid item xs={12} md={6} key={cls._id}>
+                    {hasClasses && data?.classes?.map((cls: Class) => (
+                        <Grid size={{ xs: 12, md: 6 }} key={cls._id}>
                             <ClassSection cls={cls} onEval={handleOpenEval} />
                         </Grid>
                     ))}
 
                     {/* Direct students */}
                     {hasDirectStudents && (
-                        <Grid item xs={12} md={6}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                             <Card elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider', height: '100%' }}>
                                 <Box
                                     sx={{
@@ -561,12 +561,12 @@ export default function TeacherDashboard() {
                                     <Box>
                                         <Typography variant="h6" fontWeight="bold">طلابي المباشرون</Typography>
                                         <Typography variant="caption" color="text.secondary">
-                                            {data.directStudents.length} طالب بدون فصل
+                                            {data?.directStudents?.length ?? 0} طالب بدون فصل
                                         </Typography>
                                     </Box>
                                 </Box>
                                 <CardContent sx={{ p: 2.5 }}>
-                                    {data.directStudents.map((s: Student, i: number) => (
+                                    {data?.directStudents?.map((s: Student, i: number) => (
                                         <StudentRow key={s._id} student={s} onEval={handleOpenEval} index={i} />
                                     ))}
                                 </CardContent>

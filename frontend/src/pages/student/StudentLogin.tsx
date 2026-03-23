@@ -15,8 +15,7 @@ import {
   Visibility, 
   VisibilityOff, 
   PersonOutline, 
-  LockOpenOutlined,
-  School as SchoolIcon 
+  LockOpenOutlined
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 import { authApi } from '../../api/auth';

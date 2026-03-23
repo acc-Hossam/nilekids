@@ -24,11 +24,9 @@ import {
     People as PeopleIcon,
     AttachMoney as MoneyIcon,
     MeetingRoom as ClassIcon,
-    Add as AddIcon,
     Warning as WarningIcon,
     ArrowForward as ArrowIcon,
     Payment as PaymentIcon,
-    PersonAdd as PersonAddIcon,
     PersonOff as PersonOffIcon,
     HomeWork as HomeWorkIcon,
 } from '@mui/icons-material';
@@ -76,7 +74,6 @@ interface StatCardProps {
     subtitle?: string;
 }
 function StatCard({ title, value, icon, color, subtitle }: StatCardProps) {
-    const theme = useTheme();
     return (
         <Card
             elevation={0}
@@ -205,7 +202,7 @@ export default function AdminDashboard() {
     const currentMonthRevenue = useMemo(() => {
         return activeStudents.reduce((total, s) => {
             const monthPayments = (s.payments ?? []).filter((p) => {
-                const payMonth = p.month ?? '';
+                const payMonth = (p as any).month ?? '';
                 // match either "YYYY-MM" or "شهر X" pattern — try date-based first
                 if (payMonth.startsWith(currentMonthKey.slice(0, 4))) {
                     const d = new Date(p.date ?? '');
@@ -306,7 +303,7 @@ export default function AdminDashboard() {
 
             {/* ── Stats Cards ── */}
             <Grid container spacing={3} sx={{ mb: 4 }}>
-                <Grid item xs={12} sm={6} lg={3}>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
                         title="إجمالي الطلاب"
                         value={activeStudents.length}
@@ -315,7 +312,7 @@ export default function AdminDashboard() {
                         subtitle="طالب نشط في النظام"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} lg={3}>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
                         title="المعلمون"
                         value={teachers?.length ?? 0}
@@ -324,7 +321,7 @@ export default function AdminDashboard() {
                         subtitle="معلم/ة مسجل في النظام"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} lg={3}>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
                         title="إيرادات هذا الشهر"
                         value={`${currentMonthRevenue.toLocaleString()} جم`}
@@ -333,7 +330,7 @@ export default function AdminDashboard() {
                         subtitle={MONTH_LABELS_AR[new Date().getMonth()]}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} lg={3}>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
                         title="الفصول الدراسية"
                         value={classes?.length ?? 0}
@@ -347,7 +344,7 @@ export default function AdminDashboard() {
             {/* ── Charts Row ── */}
             <Grid container spacing={3} sx={{ mb: 4 }}>
                 {/* Bar Chart */}
-                <Grid item xs={12} md={8}>
+                <Grid size={{ xs: 12, md: 8 }}>
                     <Card elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider', height: '100%' }}>
                         <CardContent sx={{ p: 3 }}>
                             <Typography variant="h6" fontWeight="bold" gutterBottom>
@@ -359,7 +356,7 @@ export default function AdminDashboard() {
                                     <XAxis dataKey="label" tick={{ fontSize: 12, fill: theme.palette.text.secondary }} />
                                     <YAxis tick={{ fontSize: 12, fill: theme.palette.text.secondary }} />
                                     <Tooltip
-                                        formatter={(value: number) => [`${value.toLocaleString()} جم`, 'الإيرادات']}
+                                        formatter={(value: any) => [`${Number(value).toLocaleString()} جم`, 'الإيرادات']}
                                         contentStyle={{
                                             borderRadius: 8,
                                             border: `1px solid ${theme.palette.divider}`,
@@ -374,7 +371,7 @@ export default function AdminDashboard() {
                 </Grid>
 
                 {/* Pie Chart */}
-                <Grid item xs={12} md={4}>
+                <Grid size={{ xs: 12, md: 4 }}>
                     <Card elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider', height: '100%' }}>
                         <CardContent sx={{ p: 3 }}>
                             <Typography variant="h6" fontWeight="bold" gutterBottom>
@@ -396,7 +393,7 @@ export default function AdminDashboard() {
                                                 <Cell key={index} fill={PIE_COLORS[index % PIE_COLORS.length]} />
                                             ))}
                                         </Pie>
-                                        <Tooltip formatter={(value: number) => [`${value} طالب`, '']} />
+                                        <Tooltip formatter={(value: any) => [`${value} طالب`, '']} />
                                         <Legend iconType="circle" iconSize={10} />
                                     </PieChart>
                                 </ResponsiveContainer>
@@ -413,7 +410,7 @@ export default function AdminDashboard() {
             {/* ── Bottom Row: Recent Students + Alerts + Quick Actions ── */}
             <Grid container spacing={3}>
                 {/* Recent Students */}
-                <Grid item xs={12} md={5}>
+                <Grid size={{ xs: 12, md: 5 }}>
                     <Card elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider', height: '100%' }}>
                         <CardContent sx={{ p: 3 }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
@@ -486,17 +483,17 @@ export default function AdminDashboard() {
                 </Grid>
 
                 {/* Alerts + Quick Actions */}
-                <Grid item xs={12} md={7}>
+                <Grid size={{ xs: 12, md: 7 }}>
                     <Grid container spacing={3} direction="column" sx={{ height: '100%' }}>
                         {/* Alerts */}
-                        <Grid item>
+                        <Grid>
                             <Card elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
                                 <CardContent sx={{ p: 3 }}>
                                     <Typography variant="h6" fontWeight="bold" gutterBottom>
                                         ⚠️ تنبيهات تحتاج انتباهك
                                     </Typography>
                                     <Grid container spacing={1.5}>
-                                        <Grid item xs={12}>
+                                        <Grid size={12}>
                                             <AlertCard
                                                 title="بدون دفعة هذا الشهر"
                                                 count={noPaymentThisMonthCount}
@@ -506,7 +503,7 @@ export default function AdminDashboard() {
                                                 onAction={() => navigate('/admin/payments')}
                                             />
                                         </Grid>
-                                        <Grid item xs={12} sm={6}>
+                                        <Grid size={{ xs: 12, sm: 6 }}>
                                             <AlertCard
                                                 title="بدون معلمة مسؤولة"
                                                 count={noTeacherCount}
@@ -516,7 +513,7 @@ export default function AdminDashboard() {
                                                 onAction={() => navigate('/admin/students')}
                                             />
                                         </Grid>
-                                        <Grid item xs={12} sm={6}>
+                                        <Grid size={{ xs: 12, sm: 6 }}>
                                             <AlertCard
                                                 title="بدون فصل دراسي"
                                                 count={noClassCount}
@@ -532,7 +529,7 @@ export default function AdminDashboard() {
                         </Grid>
 
                         {/* Quick Actions */}
-                        <Grid item>
+                        <Grid>
                             <Card elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
                                 <CardContent sx={{ p: 3 }}>
                                     <Typography variant="h6" fontWeight="bold" gutterBottom>
@@ -565,7 +562,7 @@ export default function AdminDashboard() {
                                                 path: '/admin/classes',
                                             },
                                         ].map((action) => (
-                                            <Grid item xs={6} key={action.label}>
+                                            <Grid size={6} key={action.label}>
                                                 <Button
                                                     fullWidth
                                                     variant="outlined"

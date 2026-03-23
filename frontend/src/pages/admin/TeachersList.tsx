@@ -313,8 +313,6 @@ export default function TeachersList() {
         }}
         localeText={{
           noRowsLabel: 'لا يوجد معلمات',
-          footerRowSelected: (count: number) => `${count} صف محدد`,
-          footerTotalRows: (count) => `إجمالي: ${count}`,
         }}
       />
 
