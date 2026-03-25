@@ -1,0 +1,485 @@
+/* NurserySlider.css */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background: linear-gradient(135deg, #FFDEE9 0%, #FFB5A7 100%);
+  overflow-x: hidden;
+}
+
+.nursery-container {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Header Styles */
+.nursery-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.social-icon {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  backdrop-filter: blur(5px);
+}
+
+.social-icon svg {
+  font-size: 1.5rem;
+}
+
+.social-icon:hover {
+  background: #FF8C42;
+  color: #fff;
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 4px 15px rgba(255, 140, 66, 0.5);
+}
+
+.logo-img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+  cursor: pointer;
+}
+
+.logo-img:hover {
+  transform: scale(1.15) rotate(-5deg);
+  filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.4));
+}
+
+.logo-text {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.6rem;
+  transition: all 0.3s ease;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+.logo-text:hover {
+  transform: translateY(-2px);
+  color: #FFE5B4;
+}
+
+.login-button {
+  background: #FF8C42;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.8rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-family: 'Quicksand', sans-serif;
+}
+
+.login-button:hover {
+  transform: scale(1.05);
+  background: #FF6B2C;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Carousel Container */
+.nursery-carousel {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-list {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.carousel-item.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 10;
+}
+
+.carousel-item.prev {
+  transform: translateX(-30%) scale(0.9);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.carousel-item.next {
+  transform: translateX(30%) scale(0.9);
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Animation for next/prev */
+.carousel-item.animate-in {
+  animation: slideIn 0.5s ease forwards;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(30%) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Item Image */
+.item-image {
+  width: 100%;
+  height: 100%;
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.85);
+}
+
+/* Content Overlay */
+.item-content {
+  position: absolute;
+  top: 25%;
+  left: 10%;
+  max-width: 550px;
+  color: white;
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+  z-index: 20;
+  animation: fadeInUp 0.8s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.item-content .author {
+  font-size: 1rem;
+  letter-spacing: 5px;
+  font-weight: 600;
+  color: #FFE5B4;
+  margin-bottom: 0.5rem;
+}
+
+.item-content .title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  color: #FFF5E6;
+}
+
+.item-content .topic {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #FF8C42;
+  margin-bottom: 1rem;
+}
+
+.item-content .description {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+}
+
+.buttons {
+  margin-top: 1rem;
+}
+
+.signin-btn {
+  background: #FF8C42;
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Quicksand', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.signin-btn:hover {
+  transform: translateY(-3px);
+  background: #FF6B2C;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Thumbnail Strip */
+.thumbnail-strip {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  z-index: 30;
+  padding: 10px;
+  overflow-x: auto;
+  max-width: 90vw;
+  scrollbar-width: thin;
+}
+
+.thumbnail-strip::-webkit-scrollbar {
+  height: 4px;
+}
+
+.thumbnail-strip::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+.thumbnail-strip::-webkit-scrollbar-thumb {
+  background: #FF8C42;
+  border-radius: 10px;
+}
+
+.thumbnail-item {
+  width: 140px;
+  height: 100px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.thumbnail-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+}
+
+.thumbnail-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  padding: 10px;
+  color: white;
+}
+
+.thumb-title {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.thumb-desc {
+  font-size: 0.7rem;
+  opacity: 0.9;
+}
+
+/* Navigation Arrows */
+.carousel-arrows {
+  position: absolute;
+  bottom: 30%;
+  right: 5%;
+  display: flex;
+  gap: 15px;
+  z-index: 30;
+}
+
+.arrow {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  border: none;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.arrow:hover:not(:disabled) {
+  background: rgba(255, 140, 66, 0.8);
+  transform: scale(1.1);
+}
+
+.arrow:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Progress Bar */
+.time-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  z-index: 30;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 100%;
+  background: #FF8C42;
+  animation: progress 6s linear forwards;
+}
+
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+/* Reset animation when animating */
+.nursery-carousel.animating .progress-bar {
+  animation: none;
+  width: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .item-content {
+    left: 5%;
+    right: 5%;
+    top: 20%;
+    max-width: 90%;
+  }
+
+  .item-content .title {
+    font-size: 2rem;
+  }
+
+  .item-content .topic {
+    font-size: 1.3rem;
+  }
+
+  .item-content .description {
+    font-size: 0.85rem;
+  }
+
+  .thumbnail-item {
+    width: 100px;
+    height: 80px;
+  }
+
+  .carousel-arrows {
+    bottom: 20%;
+    right: 20px;
+  }
+
+  .arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.4rem;
+  }
+
+  .nav-links {
+    gap: 1rem;
+  }
+
+  .nav-links a {
+    font-size: 0.9rem;
+  }
+
+  .login-button {
+    padding: 0.4rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .item-content .title {
+    font-size: 1.5rem;
+  }
+
+  .item-content .topic {
+    font-size: 1rem;
+  }
+
+  .thumbnail-item {
+    width: 80px;
+    height: 70px;
+  }
+
+  .thumb-title {
+    font-size: 0.7rem;
+  }
+}

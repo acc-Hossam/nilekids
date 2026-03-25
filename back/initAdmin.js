@@ -3,9 +3,9 @@ const bcrypt = require("bcryptjs");
 
 async function createDefaultAdmin() {
   try {
-    const existingAdmin = await Admin.findOne({ username: "admin" });
+    const existingAdmin = await Admin.findOne({ username: "hossamhassan" });
     if (!existingAdmin) {
-      const hashedPassword = await bcrypt.hash("admin", 10);
+      const hashedPassword = await bcrypt.hash("Allah@2020", 10);
 
       const admin = new Admin({
         name: "Default Admin",

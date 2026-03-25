@@ -13,6 +13,7 @@ import PaymentsPage from './pages/admin/PaymentsPage';
 import TeacherDashboard from './pages/teacher/Dashboard';
 import StudentProfile from './pages/student/Profile';
 import StudentLogin from './pages/student/StudentLogin';
+import Home from './pages/Home';
 
 
 function RootRedirect() {
@@ -72,7 +73,7 @@ function App() {
           user?.role === 'student' ? <StudentProfile /> : <Navigate to="/login" replace />
         } />
 
-        <Route path="/" element={<RootRedirect />} />
+        <Route path="/" element={!user ? <Home /> : <RootRedirect />} />
       </Routes>
     </BrowserRouter>
   );
