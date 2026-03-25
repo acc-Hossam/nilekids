@@ -23,7 +23,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
+
     try {
       const response = await authApi.login(credentials);
       const user = { id: response.userId, role: response.role, name: response.name };
@@ -37,12 +37,12 @@ export default function Login() {
   };
 
   return (
-    <Box sx={{ 
-      height: '100vh', 
-      display: 'flex', 
-      alignItems: 'center', 
+    <Box sx={{
+      height: '100vh',
+      display: 'flex',
+      alignItems: 'center',
       justifyContent: 'center',
-      bgcolor: 'background.default' 
+      bgcolor: 'background.default'
     }}>
       <Paper elevation={3} sx={{ p: 4, width: 400, direction: 'rtl' }}>
         <Typography variant="h4" align="center" gutterBottom>
@@ -60,7 +60,7 @@ export default function Login() {
             <Select
               value={credentials.role}
               label="نوع المستخدم"
-              onChange={(e) => setCredentials({...credentials, role: e.target.value as any})}
+              onChange={(e) => setCredentials({ ...credentials, role: e.target.value as any })}
             >
               <MenuItem value="admin">مدير النظام</MenuItem>
               <MenuItem value="teacher">معلمة</MenuItem>
@@ -72,7 +72,7 @@ export default function Login() {
             fullWidth
             label="اسم المستخدم"
             value={credentials.username}
-            onChange={(e) => setCredentials({...credentials, username: e.target.value})}
+            onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
             sx={{ mb: 2 }}
           />
 
@@ -81,13 +81,13 @@ export default function Login() {
             type="password"
             label="كلمة المرور"
             value={credentials.password}
-            onChange={(e) => setCredentials({...credentials, password: e.target.value})}
+            onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
             sx={{ mb: 3 }}
           />
 
-          <Button 
-            fullWidth 
-            variant="contained" 
+          <Button
+            fullWidth
+            variant="contained"
             size="large"
             type="submit"
             disabled={loading}
@@ -96,9 +96,7 @@ export default function Login() {
           </Button>
         </form>
 
-        <Typography variant="caption" sx={{ mt: 2, display: 'block', textAlign: 'center' }}>
-          admin / admin123 | teacher_sarah / pass123 | student_ali / pass123
-        </Typography>
+
       </Paper>
     </Box>
   );
