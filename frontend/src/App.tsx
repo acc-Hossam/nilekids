@@ -52,7 +52,7 @@ function App() {
         <Route path="/student-login" element={!user ? <StudentLogin /> : <Navigate to="/" replace />} />
 
         <Route path="/admin/*" element={
-          user?.role === 'admin' ? <AdminLayout /> : <Navigate to="/login" replace />
+          user?.role === 'admin' ? <AdminLayout /> : <Navigate to="/" replace />
         }>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="teachers" element={<TeachersList />} />
@@ -64,13 +64,13 @@ function App() {
         </Route>
 
         <Route path="/teacher/*" element={
-          user?.role === 'teacher' ? <TeacherLayout /> : <Navigate to="/login" replace />
+          user?.role === 'teacher' ? <TeacherLayout /> : <Navigate to="/" replace />
         }>
           <Route index element={<TeacherDashboard />} />
         </Route>
 
         <Route path="/student/*" element={
-          user?.role === 'student' ? <StudentProfile /> : <Navigate to="/login" replace />
+          user?.role === 'student' ? <StudentProfile /> : <Navigate to="/" replace />
         } />
 
         <Route path="/" element={!user ? <Home /> : <RootRedirect />} />
@@ -108,7 +108,7 @@ function AdminLayout() {
             <Button
               color="inherit"
               startIcon={<LogoutIcon />}
-              onClick={() => { logout(); navigate('/login'); }}
+              onClick={() => { logout(); navigate('/'); }}
               sx={{ mr: 1, fontFamily: 'inherit' }}
             >
               خروج
@@ -185,7 +185,7 @@ function TeacherLayout() {
             <Button
               color="inherit"
               startIcon={<LogoutIcon />}
-              onClick={() => { logout(); navigate('/login'); }}
+              onClick={() => { logout(); navigate('/'); }}
               sx={{ mr: 1, fontFamily: 'inherit' }}
             >
               خروج

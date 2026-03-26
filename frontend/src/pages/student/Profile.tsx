@@ -51,7 +51,7 @@ export default function StudentProfile() {
 
   const handleLogout = () => {
     logout();
-    navigate('/student-login');
+    navigate('/');
   };
 
   return (

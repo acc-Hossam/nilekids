@@ -15,7 +15,7 @@ async function createDefaultAdmin() {
       });
 
       await admin.save();
-      console.log("✅ Default admin created: userName=admin, password=admin");
+      console.log("✅");
     } else {
       console.log("ℹ️ Default admin already exists");
     }
