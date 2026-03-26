@@ -78,7 +78,7 @@ export default function StudentProfile() {
             <LogoutIcon />
           </IconButton>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center', gap: 3, flexWrap: 'wrap', textAlign: { xs: 'center', sm: 'right' } }}>
             <Box sx={{ position: 'relative' }}>
               <Avatar
               // src={profile?.img} 
@@ -114,7 +114,7 @@ export default function StudentProfile() {
       <Grid container spacing={4}>
 
         {/* ── LEFT COLUMN: EVALUATIONS & TEACHER ── */}
-        <Grid size={{ xs: 12, md: 8 }}>
+        <Grid size={{ xs: 12, md: 4 }}>
 
           {/* TEACHER INFO */}
           <Card elevation={0} sx={{ borderRadius: 4, mb: 4, border: '1px solid', borderColor: 'divider', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
@@ -304,13 +304,13 @@ export default function StudentProfile() {
                     </Box>
 
                     {lesson.description && (
-                      <Typography variant="body1" color="text.secondary" sx={{ mb: 3, pl: 7 }}>
+                      <Typography variant="body1" color="text.secondary" sx={{ mb: 3, px: { xs: 0, sm: 7 } }}>
                         {lesson.description}
                       </Typography>
                     )}
 
                     {lesson.contents && lesson.contents.length > 0 && (
-                      <Box sx={{ pl: 7 }}>
+                      <Box sx={{ px: { xs: 0, sm: 7 } }}>
                         <Divider sx={{ mb: 2 }} />
                         <Typography variant="subtitle2" fontWeight="bold" sx={{ mb: 1.5, color: 'text.primary' }}>
                           مرفقات الدرس:

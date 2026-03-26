@@ -198,12 +198,13 @@ body {
 .item-content {
   position: absolute;
   top: 25%;
-  left: 10%;
+  right: 10%;
   max-width: 550px;
   color: white;
   text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
   z-index: 20;
   animation: fadeInUp 0.8s ease;
+  text-align: right;
 }
 
 @keyframes fadeInUp {
@@ -416,11 +417,29 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .nursery-header {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .logo-section {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .social-icon {
+    width: 35px;
+    height: 35px;
+  }
+
   .item-content {
     left: 5%;
     right: 5%;
     top: 20%;
     max-width: 90%;
+    text-align: center;
   }
 
   .item-content .title {
